@@ -19,7 +19,13 @@ function App() {
           onError={handleFailure}
         />
       </div>
+      <footer style={{ marginTop: "50px" }}>
+        <p>
+          <Link to="/privacy-policy">Política de Privacidad</Link>
+        </p>
+      </footer>
     </GoogleOAuthProvider>
+    
   );
 }
 
