@@ -14,7 +14,7 @@ function App() {
   };
 
   return (
-    <GoogleOAuthProvider clientId="TU_CLIENT_ID_DE_GOOGLE">
+    <GoogleOAuthProvider clientId="587724636091-8q7phk2sfai7qfhpjjrg1tqsgrrogs90.apps.googleusercontent.com">
       <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
         <h1>¡Bienvenido a Animatch! 🐾</h1>
         <p>Conecta mascotas rescatadas con familias amorosas.</p>
