@@ -21,7 +21,11 @@ function App() {
       <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
         <h1>¡Bienvenido a Animatch! 🐾</h1>
         <p>Conecta mascotas rescatadas con familias amorosas.</p>
-        <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
+        
+        {/* Contenedor centrado del botón */}
+        <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+          <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
+        </div>
 
         {/* Footer */}
         <footer
