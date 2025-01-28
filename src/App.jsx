@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Para decodificar el token JWT de Google
+import { jwtDecode } from "jwt-decode"; // Decodifica el token JWT de Google
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import HomePage from "./HomePage";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsOfService from "./TermsOfService";
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const [user, setUser] = useState(null); // Estado para almacenar datos del usuario
   const navigate = useNavigate();
 
-  // Estado para almacenar los datos del usuario
-  const [user, setUser] = useState(null);
-
+  // Manejo del inicio de sesión exitoso
   const handleSuccess = (credentialResponse) => {
-    console.log("Credenciales de inicio de sesión:", credentialResponse);
-
-    // Decodifica el token JWT para obtener la información del usuario
     const decoded = jwtDecode(credentialResponse.credential);
-    console.log("Información del usuario decodificada:", decoded);
+    console.log("Usuario decodificado:", decoded);
 
-    // Actualiza el estado con la información del usuario
+    // Almacena el nombre y otros datos del usuario en el estado
     setUser({
       name: decoded.name,
       email: decoded.email,
@@ -28,37 +27,41 @@ function App() {
     navigate("/home");
   };
 
+  // Manejo de errores en el inicio de sesión
   const handleFailure = () => {
     console.error("Error al iniciar sesión.");
   };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
-        <h1>¡Bienvenido a Animatch! 🐾</h1>
-        <p>Conecta mascotas rescatadas con familias amorosas.</p>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
+              <h1>¡Bienvenido a Animatch! 🐾</h1>
+              <p>Conecta mascotas rescatadas con familias amorosas.</p>
 
-        {/* Botón de inicio de sesión centrado */}
-        <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
-          <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
-        </div>
-
-        {/* Footer */}
-        <footer
-          style={{
-            marginTop: "50px",
-            borderTop: "1px solid #ccc",
-            paddingTop: "20px",
-          }}
-        >
-          <p>
-            <Link to="/privacy-policy" style={{ marginRight: "15px" }}>
-              Política de Privacidad
-            </Link>
-            <Link to="/terms-of-service">Condiciones del Servicio</Link>
-          </p>
-        </footer>
-      </div>
+              {/* Botón de inicio de sesión */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "20px 0",
+                }}
+              >
+                <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="/home"
+          element={<HomePage user={user} />} // Pasa el usuario como prop
+        />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+      </Routes>
     </GoogleOAuthProvider>
   );
 }
