@@ -11,7 +11,7 @@ function HomePage({ user }) {
       {/* Contenido principal */}
       <main style={{ marginTop: "30px" }}>
         <h2>Bienvenido a la página principal de Animatch</h2>
-        <p>Esta es tu página personalizada para gestionar adopciones y explorar nuevas mascotas.</p>
+        <p>Esta es tu página para registrar animales y encontrar adopción.</p>
       </main>
 
       {/* Footer */}
