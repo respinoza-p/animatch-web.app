@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode"; // Para decodificar el token JWT de Google
+import { jwtDecode } from "jwt-decode"; // Para decodificar el token JWT de Google
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
