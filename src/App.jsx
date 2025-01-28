@@ -14,7 +14,7 @@ function App() {
     console.log("Credenciales de inicio de sesión:", credentialResponse);
 
     // Decodifica el token JWT para obtener la información del usuario
-    const decoded = jwt_decode(credentialResponse.credential);
+    const decoded = jwtDecode(credentialResponse.credential);
     console.log("Información del usuario decodificada:", decoded);
 
     // Actualiza el estado con la información del usuario
