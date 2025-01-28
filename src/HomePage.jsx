@@ -5,13 +5,13 @@ import Footer from "./components/Footer";
 function HomePage({ user }) {
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
-      {/* Cabecera */}
+      {/* Cabecera con el nombre del usuario */}
       <Header userName={user?.name || "Usuario"} />
 
       {/* Contenido principal */}
       <main style={{ marginTop: "30px" }}>
         <h2>Bienvenido a la página principal de Animatch</h2>
-        <p>Esta es tu página para registrar animales y encontrar adopción.</p>
+        <p>Esta es tu página personalizada para gestionar adopciones y explorar nuevas mascotas.</p>
       </main>
 
       {/* Footer */}
