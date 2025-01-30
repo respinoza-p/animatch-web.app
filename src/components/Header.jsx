@@ -25,7 +25,7 @@ const Header = ({ userName, setUser }) => {
             🏠 Volver al Home
           </button>
 
-          <span className="me-3">Hola, {userName}!</span>
+          <span className="me-3">Hola, {userName || "Usuario"}!</span>
 
           <button className="btn btn-danger btn-sm" onClick={handleLogout}>
             Cerrar Sesión
