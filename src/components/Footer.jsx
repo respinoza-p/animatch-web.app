@@ -2,15 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer
-      style={{
-        marginTop: "50px",
-        padding: "15px",
-        backgroundColor: "#f8f9fa",
-        borderTop: "1px solid #ddd",
-      }}
-    >
-      <p>&copy; {new Date().getFullYear()} Animatch. Todos los derechos reservados.</p>
+    <footer className="bg-light text-center py-3 border-top mt-5">
+      <p className="mb-0">&copy; {new Date().getFullYear()} Animatch. Todos los derechos reservados.</p>
     </footer>
   );
 };
