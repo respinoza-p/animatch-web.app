@@ -7,6 +7,7 @@ import RegistroAnimal from "./RegistroAnimal";
 import HacerMatch from "./HacerMatch";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsOfService from "./TermsOfService";
+import NotFound from "./NotFound"; // Página de error 404
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -40,7 +41,9 @@ function App() {
           <Route path="/hacer-match" element={<HacerMatch />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="*" element={<Navigate to="/" />} />
+
+          {/* ✅ Página de error personalizada en vez de redirigir a "/" */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </GoogleOAuthProvider>
