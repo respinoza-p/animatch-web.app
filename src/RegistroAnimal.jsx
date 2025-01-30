@@ -43,6 +43,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     edad: /^[0-9]{1,2}$/,
     tamaño: /^[0-9]+$/,
     peso: /^\d+(\.\d{1,2})?$/,
+    expectativaVida: /^[0-9]{1,2}$/,
     fechaRescate: /^\d{4}-\d{2}-\d{2}$/,
     observaciones: /^.{10,}$/,
   };
@@ -110,38 +111,51 @@ const RegistroAnimal = ({ user, setUser }) => {
 
         <div className="row mt-3">
           <div className="col-md-6">
-            <label className="form-label">Edad Aproximada</label>
-            <input type="number" className="form-control" name="edad" value={formData.edad} onChange={handleChange} required />
+            <label className="form-label">Peso (kg)</label>
+            <input type="text" className="form-control" name="peso" value={formData.peso} onChange={handleChange} required />
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">Tamaño (cm)</label>
-            <input type="number" className="form-control" name="tamaño" value={formData.tamaño} onChange={handleChange} required />
+            <label className="form-label">Sexo</label>
+            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange}>
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
           </div>
         </div>
 
         <div className="row mt-3">
           <div className="col-md-6">
-            <label className="form-label">Región del Rescate</label>
-            <select className="form-select" name="regionRescate" value={formData.regionRescate} onChange={handleChange}>
-              <option value="">Seleccione Región</option>
-              {Object.keys(regionesComunas).map((region) => (
-                <option key={region} value={region}>
-                  {region}
-                </option>
-              ))}
+            <label className="form-label">Fecha de Rescate</label>
+            <input type="date" className="form-control" name="fechaRescate" value={formData.fechaRescate} onChange={handleChange} required />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Cantidad de adopciones anteriores</label>
+            <select className="form-select" name="adopcionesPrevias" value={formData.adopcionesPrevias} onChange={handleChange}>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2+</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="row mt-3">
+          <div className="col-md-6">
+            <label className="form-label">¿Cuenta con chip?</label>
+            <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={handleChange}>
+              <option value="si">Sí</option>
+              <option value="no">No</option>
+              <option value="desconocido">Desconocido</option>
             </select>
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">Comuna</label>
-            <select className="form-select" name="comunaRescate" value={formData.comunaRescate} onChange={handleChange} disabled={!formData.regionRescate}>
-              <option value="">Seleccione Comuna</option>
-              {comunas.map((comuna) => (
-                <option key={comuna} value={comuna}>
-                  {comuna}
-                </option>
-              ))}
+            <label className="form-label">Personalidad</label>
+            <select className="form-select" name="personalidad" value={formData.personalidad} onChange={handleChange}>
+              <option value="dócil">Dócil</option>
+              <option value="normal">Normal</option>
+              <option value="travieso">Travieso</option>
             </select>
           </div>
         </div>
