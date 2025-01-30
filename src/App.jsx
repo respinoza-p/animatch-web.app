@@ -20,28 +20,49 @@ function App() {
   }, []);
 
   const handleSuccess = (credentialResponse) => {
-    const decoded = jwtDecode(credentialResponse.credential);
-    const newUser = {
-      name: decoded.name,
-      email: decoded.email,
-      picture: decoded.picture,
-    };
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+      const newUser = {
+        name: decoded.name,
+        email: decoded.email,
+        picture: decoded.picture,
+      };
 
-    setUser(newUser);
-    localStorage.setItem("user", JSON.stringify(newUser));
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+    } catch (error) {
+      console.error("Error al decodificar token JWT:", error);
+    }
   };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/home" /> : <LoginPage handleSuccess={handleSuccess} />} />
+          <Route
+            path="/"
+            element={
+              user ? (
+                <Navigate to="/home" />
+              ) : (
+                <div className="container text-center mt-5">
+                  <h1 className="display-4">¡Bienvenido a Animatch! 🐾</h1>
+                  <p className="lead">Conecta mascotas rescatadas con familias amorosas.</p>
+                  <div className="d-flex justify-content-center my-4">
+                    <GoogleLogin onSuccess={handleSuccess} onError={() => console.error("Error en el login")} />
+                  </div>
+                </div>
+              )
+            }
+          />
           <Route path="/home" element={<HomePage user={user} setUser={setUser} />} />
           <Route path="/registro-animal" element={<RegistroAnimal />} />
           <Route path="/hacer-match" element={<HacerMatch />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
 
+          {/* ✅ Página 404 para rutas inválidas */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </GoogleOAuthProvider>
