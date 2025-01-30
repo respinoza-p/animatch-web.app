@@ -87,12 +87,6 @@ const RegistroAnimal = ({ user, setUser }) => {
       <h2 className="display-5 mt-4 text-center">🐶 Registro de Animal Rescatado</h2>
       <p className="lead text-center">Ingresa los datos del animal para ayudarlo a encontrar un hogar.</p>
 
-      <div className="text-center mb-3">
-        <button className="btn btn-secondary" onClick={() => navigate("/home")}>
-          🔙 Volver al Home
-        </button>
-      </div>
-
       <form className="mt-4" onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">
