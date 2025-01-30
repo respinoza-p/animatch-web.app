@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import HomePage from "./HomePage";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsOfService from "./TermsOfService";
-import "bootstrap/dist/css/bootstrap.min.css"; // Importar Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
