@@ -6,8 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Importar Bootstrap
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
+    <BrowserRouter> 
+      <App /> 
     </BrowserRouter>
   </React.StrictMode>
 );
