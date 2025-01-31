@@ -170,7 +170,7 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
         </div>
 
-        <div className="mt-3">
+        <div className="row mt-3">
             <div className="col-md-4">
                 <label className="form-label">¿Tiene chip?</label>
                 <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={handleChange}>
