@@ -28,6 +28,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     nivelActividad: "actividad normal",
     nivelAprendizaje: "normal",
     relacionesOtrosAnimales: "normal",
+    caracter: "fácil",
+    entrenamiento: "fácil",
+    cuidados: "fácil",
     fechaRescate: "",
     observaciones: "",
     regionRescate: "",
@@ -91,7 +94,14 @@ const RegistroAnimal = ({ user, setUser }) => {
         <div className="row">
           <div className="col-md-6">
             <label className="form-label">Nombre</label>
-            <input type="text" className="form-control" name="nombre" value={formData.nombre} onChange={handleChange} required />
+            <input
+              type="text"
+              className="form-control"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div className="col-md-6">
@@ -106,7 +116,14 @@ const RegistroAnimal = ({ user, setUser }) => {
         <div className="row mt-3">
           <div className="col-md-6">
             <label className="form-label">Peso (kg)</label>
-            <input type="text" className="form-control" name="peso" value={formData.peso} onChange={handleChange} required />
+            <input
+              type="text"
+              className="form-control"
+              name="peso"
+              value={formData.peso}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div className="col-md-6">
@@ -121,7 +138,14 @@ const RegistroAnimal = ({ user, setUser }) => {
         <div className="row mt-3">
           <div className="col-md-6">
             <label className="form-label">Fecha de Rescate</label>
-            <input type="date" className="form-control" name="fechaRescate" value={formData.fechaRescate} onChange={handleChange} required />
+            <input
+              type="date"
+              className="form-control"
+              name="fechaRescate"
+              value={formData.fechaRescate}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           <div className="col-md-6">
@@ -134,34 +158,34 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
         </div>
 
+        {/* 🔹 Nuevos Campos: Carácter, Entrenamiento, Cuidados */}
         <div className="row mt-3">
-          <div className="col-md-6">
-            <label className="form-label">¿Cuenta con chip?</label>
-            <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={handleChange}>
-              <option value="si">Sí</option>
-              <option value="no">No</option>
-              <option value="desconocido">Desconocido</option>
+          <div className="col-md-4">
+            <label className="form-label">Carácter</label>
+            <select className="form-select" name="caracter" value={formData.caracter} onChange={handleChange}>
+              <option value="fácil">Fácil</option>
+              <option value="intermedio">Intermedio</option>
+              <option value="alto">Alto</option>
             </select>
           </div>
 
-          <div className="col-md-6">
-            <label className="form-label">Personalidad</label>
-            <select className="form-select" name="personalidad" value={formData.personalidad} onChange={handleChange}>
-              <option value="dócil">Dócil</option>
-              <option value="normal">Normal</option>
-              <option value="travieso">Travieso</option>
+          <div className="col-md-4">
+            <label className="form-label">Entrenamiento</label>
+            <select className="form-select" name="entrenamiento" value={formData.entrenamiento} onChange={handleChange}>
+              <option value="fácil">Fácil</option>
+              <option value="intermedio">Intermedio</option>
+              <option value="alto">Alto</option>
             </select>
           </div>
-        </div>
 
-        <div className="mt-3">
-          <label className="form-label">Observaciones</label>
-          <textarea className="form-control" name="observaciones" value={formData.observaciones} onChange={handleChange} rows="3"></textarea>
-        </div>
-
-        <div className="mt-3">
-          <label className="form-label">Foto del Animal</label>
-          <input type="file" className="form-control" name="foto" onChange={handleChange} required />
+          <div className="col-md-4">
+            <label className="form-label">Cuidados</label>
+            <select className="form-select" name="cuidados" value={formData.cuidados} onChange={handleChange}>
+              <option value="fácil">Fácil</option>
+              <option value="intermedio">Intermedio</option>
+              <option value="alto">Alto</option>
+            </select>
+          </div>
         </div>
 
         <div className="text-center mt-4">
