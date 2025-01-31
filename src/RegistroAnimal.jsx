@@ -6,6 +6,11 @@ import Footer from "./components/Footer";
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
   const [formData, setFormData] = useState({
     nombre: "",
     especie: "perro",
@@ -25,7 +30,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     caracter: "fácil",
     entrenamiento: "fácil",
     cuidados: "fácil",
-    fechaRescate: "",
+    fechaRescate: getCurrentDate(),
     observaciones: "",
     regionRescate: "",
     comunaRescate: "",
