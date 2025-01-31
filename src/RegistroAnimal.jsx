@@ -18,7 +18,6 @@ const RegistroAnimal = ({ user, setUser }) => {
     tamaño: "",
     peso: "",
     sexo: "macho",
-    expectativaVida: "0",
     alimentacionEspecial: "desconocido",
     tratamientoEspecial: "desconocido",
     tieneChip: "desconocido",
@@ -161,6 +160,37 @@ const RegistroAnimal = ({ user, setUser }) => {
             </select>
           </div>
         </div>
+
+        <div className="mt-3">
+            <div className="col-md-4">
+                <label className="form-label">¿Tiene chip?</label>
+                <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={handleChange}>
+                    <option value="sinDatos">No lo sé</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div className="col-md-4">
+                <label className="form-label">¿Requiere alimentación especial?</label>
+                <select className="form-select" name="alimentacionEspecial" value={formData.alimentacionEspecial} onChange={handleChange}>
+                    <option value="sinDatos">No lo sé</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>                
+            </div>
+
+            <div className="col-md-4">
+                <label className="form-label">Tipo de actividad requerida</label>
+                <select className="form-select" name="nivelActividad" value={formData.nivelActividad} onChange={handleChange}>
+                    <option value="sinDatos">No lo sé</option>
+                    <option value="normal">Normal</option>
+                    <option value="baja">Baja</option>
+                    <option value="alta">Alta</option>
+                </select>                  
+            </div>                        
+        </div>
+
 
         {/* 🔹 Carga de Foto */}
         <div className="mt-3">
