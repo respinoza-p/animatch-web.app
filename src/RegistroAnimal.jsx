@@ -116,6 +116,19 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
         </div>
 
+        <div className="col-md-6">
+      <label className="form-label">Peso (kg)</label>
+      <input
+        type="text"
+        className="form-control"
+        name="peso"
+        value={formData.peso}
+        onChange={handleChange}
+        required
+      />
+    </div>
+
+    
         {/* 🔹 Carga de Foto */}
         <div className="mt-3">
           <label className="form-label">Foto del Animal</label>
