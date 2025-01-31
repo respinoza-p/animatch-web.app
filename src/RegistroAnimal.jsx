@@ -19,13 +19,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     peso: "",
     sexo: "macho",
     alimentacionEspecial: "desconocido",
-    tratamientoEspecial: "desconocido",
     tieneChip: "desconocido",
     adopcionesPrevias: "0",
-    personalidad: "normal",
     nivelActividad: "actividad normal",
-    nivelAprendizaje: "normal",
-    relacionesOtrosAnimales: "normal",
     caracter: "fácil",
     entrenamiento: "fácil",
     cuidados: "fácil",
@@ -117,7 +113,8 @@ const RegistroAnimal = ({ user, setUser }) => {
         </div>
 
         <div className="row mt-3">
-          <div className="col-md-6">
+
+          <div className="col-md-4">
             <label className="form-label">Peso (kg)</label>
             <input
               type="text"
@@ -129,7 +126,19 @@ const RegistroAnimal = ({ user, setUser }) => {
             />
           </div>
 
-          <div className="col-md-6">
+          <div className="col-md-4">
+            <label className="form-label">Tamaño (Centímentros) </label>
+            <input
+              type="text"
+              className="form-control"
+              name="tamaño"
+              value={formData.tamaño}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="col-md-4">
             <label className="form-label">Sexo</label>
             <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange}>
               <option value="macho">Macho</option>
