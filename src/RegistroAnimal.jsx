@@ -3,12 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-const regionesComunas = {
-  "Región Metropolitana": ["Santiago", "Providencia", "Las Condes", "Maipú", "Puente Alto"],
-  "Región de Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Concón"],
-  "Región del Biobío": ["Concepción", "Talcahuano", "Los Ángeles"],
-};
-
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
 
@@ -36,6 +30,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     regionRescate: "",
     comunaRescate: "",
     foto: null,
+    fotoPreview: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -53,22 +48,31 @@ const RegistroAnimal = ({ user, setUser }) => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "file" ? files[0] : value,
-    });
 
-    if (regex[name] && !regex[name].test(value)) {
-      setErrors({ ...errors, [name]: `Formato incorrecto para ${name}` });
+    if (type === "file") {
+      const file = files[0];
+      if (file && !["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        alert("Formato de imagen no válido. Solo se permiten JPG, JPEG y PNG.");
+        return;
+      }
+      setFormData({
+        ...formData,
+        foto: file,
+        fotoPreview: URL.createObjectURL(file),
+      });
     } else {
-      const newErrors = { ...errors };
-      delete newErrors[name];
-      setErrors(newErrors);
-    }
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
 
-    if (name === "regionRescate") {
-      setComunas(regionesComunas[value] || []);
-      setFormData({ ...formData, comunaRescate: "" });
+      if (regex[name] && !regex[name].test(value)) {
+        setErrors({ ...errors, [name]: `Formato incorrecto para ${name}` });
+      } else {
+        const newErrors = { ...errors };
+        delete newErrors[name];
+        setErrors(newErrors);
+      }
     }
   };
 
@@ -78,7 +82,6 @@ const RegistroAnimal = ({ user, setUser }) => {
       alert("Corrige los errores antes de enviar el formulario.");
       return;
     }
-
     console.log("Datos enviados:", formData);
     alert("Registro exitoso!");
   };
@@ -113,52 +116,17 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
         </div>
 
-        <div className="row mt-3">
-          <div className="col-md-6">
-            <label className="form-label">Peso (kg)</label>
-            <input
-              type="text"
-              className="form-control"
-              name="peso"
-              value={formData.peso}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label">Sexo</label>
-            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange}>
-              <option value="macho">Macho</option>
-              <option value="hembra">Hembra</option>
-            </select>
-          </div>
+        {/* 🔹 Carga de Foto */}
+        <div className="mt-3">
+          <label className="form-label">Foto del Animal</label>
+          <input type="file" className="form-control" name="foto" onChange={handleChange} accept="image/*" required />
+          {formData.fotoPreview && (
+            <div className="text-center mt-3">
+              <img src={formData.fotoPreview} alt="Vista previa" className="img-thumbnail" style={{ maxWidth: "200px" }} />
+            </div>
+          )}
         </div>
 
-        <div className="row mt-3">
-          <div className="col-md-6">
-            <label className="form-label">Fecha de Rescate</label>
-            <input
-              type="date"
-              className="form-control"
-              name="fechaRescate"
-              value={formData.fechaRescate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label">Cantidad de adopciones anteriores</label>
-            <select className="form-select" name="adopcionesPrevias" value={formData.adopcionesPrevias} onChange={handleChange}>
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2+</option>
-            </select>
-          </div>
-        </div>
-
-        {/* 🔹 Nuevos Campos: Carácter, Entrenamiento, Cuidados */}
         <div className="row mt-3">
           <div className="col-md-4">
             <label className="form-label">Carácter</label>
@@ -186,6 +154,17 @@ const RegistroAnimal = ({ user, setUser }) => {
               <option value="alto">Alto</option>
             </select>
           </div>
+        </div>
+
+        <div className="mt-3">
+          <label className="form-label">Observaciones</label>
+          <textarea
+            className="form-control"
+            name="observaciones"
+            value={formData.observaciones}
+            onChange={handleChange}
+            rows="3"
+          ></textarea>
         </div>
 
         <div className="text-center mt-4">
