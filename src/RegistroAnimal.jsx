@@ -34,7 +34,6 @@ const RegistroAnimal = ({ user, setUser }) => {
   });
 
   const [errors, setErrors] = useState({});
-  const [comunas, setComunas] = useState([]);
 
   const regex = {
     nombre: /^[a-zA-Z\s]+$/,
@@ -61,10 +60,7 @@ const RegistroAnimal = ({ user, setUser }) => {
         fotoPreview: URL.createObjectURL(file),
       });
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData({ ...formData, [name]: value });
 
       if (regex[name] && !regex[name].test(value)) {
         setErrors({ ...errors, [name]: `Formato incorrecto para ${name}` });
@@ -116,19 +112,51 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
         </div>
 
-        <div className="col-md-6">
-      <label className="form-label">Peso (kg)</label>
-      <input
-        type="text"
-        className="form-control"
-        name="peso"
-        value={formData.peso}
-        onChange={handleChange}
-        required
-      />
-    </div>
+        <div className="row mt-3">
+          <div className="col-md-6">
+            <label className="form-label">Peso (kg)</label>
+            <input
+              type="text"
+              className="form-control"
+              name="peso"
+              value={formData.peso}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-    
+          <div className="col-md-6">
+            <label className="form-label">Sexo</label>
+            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange}>
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="row mt-3">
+          <div className="col-md-6">
+            <label className="form-label">Fecha de Rescate</label>
+            <input
+              type="date"
+              className="form-control"
+              name="fechaRescate"
+              value={formData.fechaRescate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">Cantidad de adopciones anteriores</label>
+            <select className="form-select" name="adopcionesPrevias" value={formData.adopcionesPrevias} onChange={handleChange}>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2+</option>
+            </select>
+          </div>
+        </div>
+
         {/* 🔹 Carga de Foto */}
         <div className="mt-3">
           <label className="form-label">Foto del Animal</label>
@@ -167,17 +195,6 @@ const RegistroAnimal = ({ user, setUser }) => {
               <option value="alto">Alto</option>
             </select>
           </div>
-        </div>
-
-        <div className="mt-3">
-          <label className="form-label">Observaciones</label>
-          <textarea
-            className="form-control"
-            name="observaciones"
-            value={formData.observaciones}
-            onChange={handleChange}
-            rows="3"
-          ></textarea>
         </div>
 
         <div className="text-center mt-4">
