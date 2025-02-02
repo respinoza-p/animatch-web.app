@@ -231,11 +231,15 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">Especie</label>
-            <select className="form-select" name="especie" value={formData.especie} onChange={handleChange}>
-              <option value="perro">Perro</option>
-              <option value="gato">Gato</option>
-            </select>
+            <label className="form-label">Edad</label>
+            <input
+              type="text"
+              className="form-control"
+              name="edad"
+              value={formData.edad}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
