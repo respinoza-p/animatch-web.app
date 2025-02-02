@@ -214,7 +214,7 @@ const RegistroAnimal = ({ user, setUser }) => {
       <Header userName={user?.name || "Usuario"} setUser={setUser} />
 
       <h2 className="display-5 mt-4 text-center">🐶 Registro de Animal Rescatado</h2>
-      <p className="lead text-center">Ingresa los datos del animal para ayudarlo a encontrar un hogar.</p>
+      <p className="lead text-center">Ingresa los datos para ayudar a encontrar un hogar.</p>
 
       <form className="mt-4" onSubmit={handleSubmit}>
         <div className="row">
