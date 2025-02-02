@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
+const AUTH_USERNAME = import.meta.env.VITE_AUTH_USERNAME;
+const AUTH_PASSWORD = import.meta.env.VITE_AUTH_PASSWORD;
+const SEXO_API_URL = import.meta.env.VITE_SEXO_API_URL;
+
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
 
@@ -82,6 +87,62 @@ const RegistroAnimal = ({ user, setUser }) => {
     alert("Registro exitoso!");
   };
 
+  const [sexoOpciones, setSexoOpciones] = useState([]);
+  const [token, setToken] = useState("");
+
+  // 🔹 Obtener el token de autenticación
+  const fetchAuthToken = async () => {
+    try {
+      const response = await fetch(AUTH_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: AUTH_USERNAME, password: AUTH_PASSWORD }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setToken(data.token);
+        console.log("✅ Token obtenido:", data.token);
+      } else {
+        console.error("❌ Error al obtener el token:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error de autenticación:", error);
+    }
+  };
+  
+    // 🔹 Obtener la lista de sexos desde la API
+  const fetchSexoOpciones = async () => {
+    try {
+      if (!token) return;
+
+      const response = await fetch(SEXO_API_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setSexoOpciones(data);
+        console.log("✅ Sexos obtenidos:", data);
+      } else {
+        console.error("❌ Error al obtener sexos:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener sexos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAuthToken();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchSexoOpciones();
+    }
+  }, [token]);
+  
   return (
     <div className="container">
       <Header userName={user?.name || "Usuario"} setUser={setUser} />
@@ -140,11 +201,16 @@ const RegistroAnimal = ({ user, setUser }) => {
 
           <div className="col-md-4">
             <label className="form-label">Sexo</label>
-            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange}>
-              <option value="macho">Macho</option>
-              <option value="hembra">Hembra</option>
+            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange} required>
+              <option value="">Seleccione...</option>
+              {sexoOpciones.map((opcion) => (
+                <option key={opcion._id} value={opcion.valor}>
+                  {opcion.valor}
+                </option>
+              ))}
             </select>
           </div>
+
         </div>
 
         <div className="row mt-3">
