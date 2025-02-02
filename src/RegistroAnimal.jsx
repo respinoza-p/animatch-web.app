@@ -7,6 +7,7 @@ const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 const AUTH_USERNAME = import.meta.env.VITE_AUTH_USERNAME;
 const AUTH_PASSWORD = import.meta.env.VITE_AUTH_PASSWORD;
 const SEXO_API_URL = import.meta.env.VITE_SEXO_API_URL;
+const CHIP_API_URL = import.meta.env.VITE_CHIP_API_URL;
 
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const RegistroAnimal = ({ user, setUser }) => {
   });
 
   const [sexoOpciones, setSexoOpciones] = useState([]);
+  const [chipOpciones, setChipOpciones] = useState([]);
   const [token, setToken] = useState("");
 
   // 🔹 Obtener el token de autenticación
@@ -91,6 +93,27 @@ const RegistroAnimal = ({ user, setUser }) => {
     }
   };  
 
+  // 🔹 Obtener la lista de opciones para el chip desde la API
+  const fetchChipOpciones = async () => {
+    try {
+      if (!token) return;
+
+      const response = await fetch(CHIP_API_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setChipOpciones(data);
+      } else {
+        console.error("❌ Error al obtener valores para chip:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener valores para chip:", error);
+    }
+  };  
+
   useEffect(() => {
     fetchAuthToken();
   }, []);  
@@ -98,6 +121,12 @@ const RegistroAnimal = ({ user, setUser }) => {
   useEffect(() => {
     if (token) {
       fetchSexoOpciones();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchChipOpciones();
     }
   }, [token]);
 
@@ -245,11 +274,14 @@ const RegistroAnimal = ({ user, setUser }) => {
         <div className="row mt-3">
             <div className="col-md-4">
                 <label className="form-label">¿Tiene chip?</label>
-                <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={handleChange}>
-                    <option value="sinDatos">No lo sé</option>
-                    <option value="si">Si</option>
-                    <option value="no">No</option>
-                </select>
+                <select className="form-select" name="tieneChip" value={formData.tieneChip} onChange={(e) => setFormData({ ...formData, tieneChip: e.target.value })} required>
+                  <option value="">Seleccione...</option>
+                  {chipOpciones.map((opcion) => (
+                    <option key={opcion._id} value={opcion.valor}>
+                      {opcion.valor}
+                    </option>
+                  ))}
+                </select>                
             </div>
 
             <div className="col-md-4">
