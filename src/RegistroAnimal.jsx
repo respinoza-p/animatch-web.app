@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -37,6 +37,69 @@ const RegistroAnimal = ({ user, setUser }) => {
     foto: null,
     fotoPreview: null,
   });
+
+  const [sexoOpciones, setSexoOpciones] = useState([]);
+  const [token, setToken] = useState("");
+
+  // 🔹 Obtener el token de autenticación
+  const fetchAuthToken = async () => {
+    try {
+      const response = await fetch(AUTH_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: AUTH_USERNAME, password: AUTH_PASSWORD }),
+      });
+  
+      // 📌 Verifica el contenido de la respuesta antes de convertir a JSON
+      const textResponse = await response.text();
+  
+      // ⚠ Evita convertir JSON si la respuesta está vacía
+      if (!textResponse) {
+        throw new Error("❌ Respuesta vacía del servidor.");
+      }
+  
+      const data = JSON.parse(textResponse); // Convertir manualmente a JSON
+  
+      if (response.ok) {
+        setToken(data.token);
+      } else {
+        console.error("❌ Error al obtener el token:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error de autenticación:", error.message);
+    }
+  };
+
+  // 🔹 Obtener la lista de sexos desde la API
+  const fetchSexoOpciones = async () => {
+    try {
+      if (!token) return;
+
+      const response = await fetch(SEXO_API_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setSexoOpciones(data);
+      } else {
+        console.error("❌ Error al obtener sexos:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener sexos:", error);
+    }
+  };  
+
+  useEffect(() => {
+    fetchAuthToken();
+  }, []);  
+
+  useEffect(() => {
+    if (token) {
+      fetchSexoOpciones();
+    }
+  }, [token]);
 
   const [errors, setErrors] = useState({});
 
@@ -87,62 +150,6 @@ const RegistroAnimal = ({ user, setUser }) => {
     alert("Registro exitoso!");
   };
 
-  const [sexoOpciones, setSexoOpciones] = useState([]);
-  const [token, setToken] = useState("");
-
-  // 🔹 Obtener el token de autenticación
-  const fetchAuthToken = async () => {
-    try {
-      const response = await fetch(AUTH_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: AUTH_USERNAME, password: AUTH_PASSWORD }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setToken(data.token);
-        console.log("✅ Token obtenido:", data.token);
-      } else {
-        console.error("❌ Error al obtener el token:", data);
-      }
-    } catch (error) {
-      console.error("❌ Error de autenticación:", error);
-    }
-  };
-  
-    // 🔹 Obtener la lista de sexos desde la API
-  const fetchSexoOpciones = async () => {
-    try {
-      if (!token) return;
-
-      const response = await fetch(SEXO_API_URL, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setSexoOpciones(data);
-        console.log("✅ Sexos obtenidos:", data);
-      } else {
-        console.error("❌ Error al obtener sexos:", data);
-      }
-    } catch (error) {
-      console.error("❌ Error al obtener sexos:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAuthToken();
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      fetchSexoOpciones();
-    }
-  }, [token]);
-  
   return (
     <div className="container">
       <Header userName={user?.name || "Usuario"} setUser={setUser} />
@@ -201,7 +208,7 @@ const RegistroAnimal = ({ user, setUser }) => {
 
           <div className="col-md-4">
             <label className="form-label">Sexo</label>
-            <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange} required>
+            <select className="form-select" name="sexo" value={formData.sexo} onChange={(e) => setFormData({ ...formData, sexo: e.target.value })} required>
               <option value="">Seleccione...</option>
               {sexoOpciones.map((opcion) => (
                 <option key={opcion._id} value={opcion.valor}>
@@ -210,7 +217,6 @@ const RegistroAnimal = ({ user, setUser }) => {
               ))}
             </select>
           </div>
-
         </div>
 
         <div className="row mt-3">
