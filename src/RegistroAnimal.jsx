@@ -8,6 +8,7 @@ const AUTH_USERNAME = import.meta.env.VITE_AUTH_USERNAME;
 const AUTH_PASSWORD = import.meta.env.VITE_AUTH_PASSWORD;
 const SEXO_API_URL = import.meta.env.VITE_SEXO_API_URL;
 const CHIP_API_URL = import.meta.env.VITE_CHIP_API_URL;
+const VACUNA_API_URL = import.meta.env.VITE_VACUNA_API_URL;
 
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -37,10 +38,12 @@ const RegistroAnimal = ({ user, setUser }) => {
     comunaRescate: "",
     foto: null,
     fotoPreview: null,
+    vacuna: null
   });
 
   const [sexoOpciones, setSexoOpciones] = useState([]);
   const [chipOpciones, setChipOpciones] = useState([]);
+  const [vacunaOpciones, setVacunaOpciones] = useState([]);
   const [token, setToken] = useState("");
 
   // 🔹 Obtener el token de autenticación
@@ -114,6 +117,27 @@ const RegistroAnimal = ({ user, setUser }) => {
     }
   };  
 
+  // 🔹 Obtener la lista de opciones para las vacunas desde la API
+  const fetchVacunaOpciones = async () => {
+    try {
+      if (!token) return;
+
+      const response = await fetch(VACUNA_API_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setVacunaOpciones(data);
+      } else {
+        console.error("❌ Error al obtener valores para vacunas:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener valores para vacunas:", error);
+    }
+  }; 
+
   useEffect(() => {
     fetchAuthToken();
   }, []);  
@@ -129,6 +153,12 @@ const RegistroAnimal = ({ user, setUser }) => {
       fetchChipOpciones();
     }
   }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchVacunaOpciones();
+    }
+  }, [token]);  
 
   const [errors, setErrors] = useState({});
 
@@ -285,12 +315,15 @@ const RegistroAnimal = ({ user, setUser }) => {
             </div>
 
             <div className="col-md-4">
-                <label className="form-label">¿Requiere alimentación especial?</label>
-                <select className="form-select" name="alimentacionEspecial" value={formData.alimentacionEspecial} onChange={handleChange}>
-                    <option value="sinDatos">No lo sé</option>
-                    <option value="si">Si</option>
-                    <option value="no">No</option>
-                </select>                
+                <label className="form-label">Estado vacunas</label>
+                <select className="form-select" name="vacuna" value={formData.vacuna} onChange={(e) => setFormData({ ...formData, vacuna: e.target.value })} required>
+                  <option value="">Seleccione...</option>
+                  {vacunaOpciones.map((opcion) => (
+                    <option key={opcion._id} value={opcion.valor}>
+                      {opcion.valor}
+                    </option>
+                  ))}
+                </select>           
             </div>
 
             <div className="col-md-4">
