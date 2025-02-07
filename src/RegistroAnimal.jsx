@@ -9,6 +9,7 @@ const AUTH_PASSWORD = import.meta.env.VITE_AUTH_PASSWORD;
 const SEXO_API_URL = import.meta.env.VITE_SEXO_API_URL;
 const CHIP_API_URL = import.meta.env.VITE_CHIP_API_URL;
 const VACUNA_API_URL = import.meta.env.VITE_VACUNA_API_URL;
+const TAMANIMAL_API_URL = import.meta.env.VITE_TAM_ANIMAL;
 
 const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -38,12 +39,14 @@ const RegistroAnimal = ({ user, setUser }) => {
     comunaRescate: "",
     foto: null,
     fotoPreview: null,
-    vacuna: null
+    vacuna: null,
+    tamAnimal: null
   });
 
   const [sexoOpciones, setSexoOpciones] = useState([]);
   const [chipOpciones, setChipOpciones] = useState([]);
   const [vacunaOpciones, setVacunaOpciones] = useState([]);
+  const [tamAnimalOpciones, setTamAnimalOpciones] = useState([]);
   const [token, setToken] = useState("");
 
   // 🔹 Obtener el token de autenticación
@@ -138,6 +141,27 @@ const RegistroAnimal = ({ user, setUser }) => {
     }
   }; 
 
+  // 🔹 Obtener la lista de opciones para el tamaño de los animales
+  const fetchTamAnimalOpciones = async () => {
+    try {
+      if (!token) return;
+
+      const response = await fetch(TAMANIMAL_API_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setTamAnimalOpciones(data);
+      } else {
+        console.error("❌ Error al obtener valores para vacunas:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener valores para vacunas:", error);
+    }
+  };   
+
   useEffect(() => {
     fetchAuthToken();
   }, []);  
@@ -158,7 +182,13 @@ const RegistroAnimal = ({ user, setUser }) => {
     if (token) {
       fetchVacunaOpciones();
     }
-  }, [token]);  
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchTamAnimalOpciones();
+    }
+  }, [token]);   
 
   const [errors, setErrors] = useState({});
 
@@ -258,15 +288,15 @@ const RegistroAnimal = ({ user, setUser }) => {
           </div>
 
           <div className="col-md-4">
-            <label className="form-label">Tamaño (Centímentros) </label>
-            <input
-              type="text"
-              className="form-control"
-              name="tamaño"
-              value={formData.tamaño}
-              onChange={handleChange}
-              required
-            />
+            <label className="form-label">Tamaño</label>
+            <select className="form-select" name="tamAnimal" value={formData.tamAnimal} onChange={(e) => setFormData({ ...formData, tamAnimal: e.target.value })} required>
+              <option value="">Seleccione...</option>
+              {tamAnimalOpciones.map((opcion) => (
+                <option key={opcion._id} value={opcion.valor}>
+                  {opcion.valor}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="col-md-4">
