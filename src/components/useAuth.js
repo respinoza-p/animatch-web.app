@@ -12,11 +12,16 @@ const useAuth = () => {
       try {
         const response = await fetch(AUTH_API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
           body: JSON.stringify({ username: AUTH_USERNAME, password: AUTH_PASSWORD }),
         });
 
-        if (!response.ok) throw new Error("Error obteniendo token");
+        if (!response.ok) {
+          throw new Error(`Error obteniendo token. Status: ${response.status}`);
+        }
 
         const data = await response.json();
         setToken(data.token);
