@@ -81,6 +81,20 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
+      <div className="row mt-3">
+        <div className="col-md-4">
+          <label className="form-label">Vacunas</label>
+          <select className="form-select" name="vacuna" value={formData.vacuna || ""} onChange={handleChange} required>
+            <option value="">Seleccione...</option>
+            {options.vacuna.map((op) => (
+              <option key={op._id} value={op.valor}>
+                {op.valor}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       <button type="submit" className="btn btn-primary mt-3">Registrar</button>
     </form>
   );
