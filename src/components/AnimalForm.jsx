@@ -7,7 +7,7 @@ const regex = {
   observaciones: /^.{10,}$/,
 };
 
-const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
+const AnimalForm = ({ formData, setFormData, options }) => {
   // Obtiene la fecha actual en formato YYYY-MM-DD
   const today = new Date().toISOString().split("T")[0];
 
@@ -32,7 +32,11 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
                 // Si el blob sigue siendo mayor a 3 MB, reduce la calidad a 0.7
                 canvas.toBlob(
                   (compressedBlob) => {
-                    resolve(new File([compressedBlob], file.name, { type: "image/jpeg" }));
+                    resolve(
+                      new File([compressedBlob], file.name, {
+                        type: "image/jpeg",
+                      })
+                    );
                   },
                   "image/jpeg",
                   0.7
@@ -71,8 +75,14 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
       Promise.all(limitedFiles.map((file) => compressImage(file)))
         .then((compressedFiles) => {
           // Genera las URL para previsualización de cada imagen
-          const previews = compressedFiles.map((file) => URL.createObjectURL(file));
-          setFormData({ ...formData, fotos: compressedFiles, fotosPreview: previews });
+          const previews = compressedFiles.map((file) =>
+            URL.createObjectURL(file)
+          );
+          setFormData({
+            ...formData,
+            fotos: compressedFiles,
+            fotosPreview: previews,
+          });
         })
         .catch((error) => {
           console.error("Error al comprimir imágenes:", error);
@@ -80,7 +90,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
       return;
     }
 
-    // Lógica para campos de tipo file (único) que ya tenías
+    // Lógica para campos de tipo file (único)
     if (type === "file") {
       const file = files[0];
       if (
@@ -97,6 +107,70 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
       });
     } else {
       setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  // Función para enviar los datos al backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Crear un objeto FormData y agregar todos los campos del formulario
+    const dataToSend = new FormData();
+    dataToSend.append("nombre", formData.nombre);
+    dataToSend.append("edad", formData.edad);
+    dataToSend.append("peso", formData.peso);
+    dataToSend.append("sexo", formData.sexo);
+    dataToSend.append("chip", formData.chip);
+    dataToSend.append("alimentacion", formData.alimentacion);
+    dataToSend.append("vacuna", formData.vacuna);
+    dataToSend.append("esterilizado", formData.esterilizado);
+    dataToSend.append("raza", formData.raza);
+    dataToSend.append("tamAnimal", formData.tamAnimal);
+    dataToSend.append(
+      "fechaNacimiento",
+      formData.fechaNacimiento || today
+    );
+    dataToSend.append("fechaRescate", formData.fechaRescate || today);
+    dataToSend.append("cantAdopciones", formData.cantAdopciones);
+    dataToSend.append("tipoActividad", formData.tipoActividad);
+    dataToSend.append("caracter", formData.caracter);
+    dataToSend.append("tipoEntrenamiento", formData.tipoEntrenamiento);
+    dataToSend.append("cuidados", formData.cuidados);
+    dataToSend.append("problemaComportamiento", formData.problemaComportamiento);
+    dataToSend.append(
+      "relacionOtrosAnimales",
+      formData.relacionOtrosAnimales
+    );
+    dataToSend.append("perroAptoPara", formData.perroAptoPara);
+    dataToSend.append("pelechaCaspa", formData.pelechaCaspa);
+
+    // Agregar las fotos (si existen)
+    if (formData.fotos && formData.fotos.length > 0) {
+      formData.fotos.forEach((file) => {
+        dataToSend.append("fotos", file);
+      });
+    } else {
+      alert("Debe cargar al menos una fotografía.");
+      return;
+    }
+
+    try {
+
+      const registroAnimalApiUrl = import.meta.env.VITE_REGISTRO_ANIMAL_API_URL;
+
+      const response = await fetch(registroAnimalApiUrl, {
+        method: "POST",
+        body: dataToSend,
+      });
+      
+      if (!response.ok) {
+        throw new Error("Error al guardar el registro");
+      }
+      const result = await response.json();
+      console.log("Registro guardado:", result);
+      // Aquí puedes limpiar el formulario o redirigir al usuario
+    } catch (error) {
+      console.error("Error en el envío:", error);
     }
   };
 
@@ -122,9 +196,9 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             className="form-control"
             name="edad"
             value={formData.edad}
-            onChange={handleChange} 
+            onChange={handleChange}
             min="0"
-            max="30" 
+            max="30"
             required
           />
         </div>
@@ -139,9 +213,9 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             className="form-control"
             name="peso"
             value={formData.peso}
-            onChange={handleChange} 
+            onChange={handleChange}
             min="0"
-            max="70"             
+            max="70"
             required
           />
         </div>
@@ -185,7 +259,9 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
           </select>
         </div>
         <div className="col-md-6">
-          <label className="form-label">¿Requiere alimentación especial?</label>
+          <label className="form-label">
+            ¿Requiere alimentación especial?
+          </label>
           <select
             className="form-select"
             name="alimentacion"
@@ -251,7 +327,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="raza"
             value={formData.raza || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.raza &&
               options.raza.map((op) => (
@@ -268,7 +345,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tamAnimal"
             value={formData.tamAnimal || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.tamAnimal &&
               options.tamAnimal.map((op) => (
@@ -290,7 +368,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="fechaNacimiento"
             value={formData.fechaNacimiento || today}
             onChange={handleChange}
-            required/>
+            required
+          />
         </div>
         <div className="col-md-4">
           <label className="form-label">Fecha Rescate</label>
@@ -304,7 +383,9 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
           />
         </div>
         <div className="col-md-4">
-          <label className="form-label">Cantidad de Adopciones Anteriores</label>
+          <label className="form-label">
+            Cantidad de Adopciones Anteriores
+          </label>
           <input
             type="number"
             className="form-control"
@@ -313,7 +394,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             onChange={handleChange}
             min="0"
             max="10"
-            required/>
+            required
+          />
         </div>
       </div>
 
@@ -326,7 +408,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tipoActividad"
             value={formData.tipoActividad || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.tipoActividad &&
               options.tipoActividad.map((op) => (
@@ -343,7 +426,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="caracter"
             value={formData.caracter || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.caracter &&
               options.caracter.map((op) => (
@@ -364,7 +448,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tipoEntrenamiento"
             value={formData.tipoEntrenamiento || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.tipoEntrenamiento &&
               options.tipoEntrenamiento.map((op) => (
@@ -381,7 +466,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="cuidados"
             value={formData.cuidados || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.cuidados &&
               options.cuidados.map((op) => (
@@ -391,7 +477,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
               ))}
           </select>
         </div>
-      </div>      
+      </div>
 
       {/* Nuevos campos: Problemas de comportamiento y Relación con otros animales */}
       <div className="row mt-3">
@@ -402,7 +488,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="problemaComportamiento"
             value={formData.problemaComportamiento || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.problemaComportamiento &&
               options.problemaComportamiento.map((op) => (
@@ -419,7 +506,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="relacionOtrosAnimales"
             value={formData.relacionOtrosAnimales || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.relacionOtrosAnimales &&
               options.relacionOtrosAnimales.map((op) => (
@@ -430,6 +518,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
           </select>
         </div>
       </div>
+
       {/* Nuevos campos: Perro apto para y Pelecha o tiene caspa */}
       <div className="row mt-3">
         <div className="col-md-6">
@@ -439,7 +528,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="perroAptoPara"
             value={formData.perroAptoPara || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.perroAptoPara &&
               options.perroAptoPara.map((op) => (
@@ -456,7 +546,8 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="pelechaCaspa"
             value={formData.pelechaCaspa || ""}
             onChange={handleChange}
-            required>
+            required
+          >
             <option value="">Seleccione...</option>
             {options.pelechaCaspa &&
               options.pelechaCaspa.map((op) => (
@@ -468,24 +559,26 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
-      {/* Campo para cargar fotografías (3 fotos) */}
+      {/* Campo para cargar fotografías (máx 3, cada una < 3MB) */}
       <div className="row mt-3">
         <div className="col-md-12">
-          <label className="form-label">Fotografías del animal (máx 3, cada una &lt; 3MB)</label>
+          <label className="form-label">
+            Fotografías del animal (máx 3, cada una &lt; 3MB)
+          </label>
           <input
             type="file"
             className="form-control"
             name="fotos"
             onChange={handleChange}
             accept="image/jpeg,image/png,image/jpg"
-            multiple 
+            multiple
             required
           />
         </div>
       </div>
 
       <button type="submit" className="btn btn-primary mt-3">
-        Registrar 
+        Registrar
       </button>
     </form>
   );
