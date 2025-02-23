@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useFetchOptions = (token, urls) => {
-  const [options, setOptions] = useState({ sexo: [], vacuna: [], esterilizado: [], raza: [], tamAnimal: [] });
+  const [options, setOptions] = useState({ sexo: [], vacuna: [], esterilizado: [], raza: [], tamAnimal: [], chip: [], alimentacion: [], tipoActividad: [], caracter: [] });
 
   useEffect(() => {
     if (!token) return;

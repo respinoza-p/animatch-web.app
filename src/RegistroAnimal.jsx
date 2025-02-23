@@ -16,7 +16,11 @@ const RegistroAnimal = ({ user, setUser }) => {
     vacuna: import.meta.env.VITE_VACUNA_API_URL,
     esterilizado: import.meta.env.VITE_ESTADO_REPRODUCTIVO_ANIMAL,
     raza: import.meta.env.VITE_RAZA_ANIMAL,
-    tamAnimal: import.meta.env.VITE_TAM_ANIMAL
+    tamAnimal: import.meta.env.VITE_TAM_ANIMAL,
+    chip: import.meta.env.VITE_CHIP_API_URL,
+    alimentacion: import.meta.env.VITE_TIPO_ALIMENTACION,
+    tipoActividad: import.meta.env.VITE_ACTIVIDAD_ANIMAL,
+    caracter: import.meta.env.VITE_CARACTER_ANIMAL
   }), []);
 
   const options = useFetchOptions(token, API_URLS);
@@ -30,9 +34,13 @@ const RegistroAnimal = ({ user, setUser }) => {
     esterilizado: null,
     raza: null,
     tamAnimal: null,
+    chip: null,
+    alimentacion: null,    
     fechaNacimiento: "",
     fechaRescate: "",
-    cantAdopciones: 0,    
+    cantAdopciones: 0,
+    tipoActividad: null,
+    caracter: null,        
     foto: null,
     fotoPreview: null,
   });

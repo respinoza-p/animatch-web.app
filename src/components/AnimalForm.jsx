@@ -13,7 +13,6 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-
     if (type === "file") {
       const file = files[0];
       if (file && !["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
@@ -86,6 +85,46 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
                 {op.valor}
               </option>
             ))}
+          </select>
+        </div>
+      </div>
+
+      {/* ¿Tiene Chip? y ¿Requiere alimentación especial? */}
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <label className="form-label">¿Tiene Chip?</label>
+          <select
+            className="form-select"
+            name="chip"
+            value={formData.chip || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.chip &&
+              options.chip.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">¿Requiere alimentación especial?</label>
+          <select
+            className="form-select"
+            name="alimentacion"
+            value={formData.alimentacion || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.alimentacion &&
+              options.alimentacion.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
           </select>
         </div>
       </div>
@@ -168,7 +207,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
-      {/* Nuevos campos: Fecha Nacimiento, Fecha Rescate y Cantidad de Adopciones */}
+      {/* Fecha Nacimiento, Fecha Rescate y Cantidad de Adopciones Anteriores */}
       <div className="row mt-3">
         <div className="col-md-4">
           <label className="form-label">Fecha Nacimiento</label>
@@ -204,6 +243,46 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             max="10"
             required
           />
+        </div>
+      </div>
+
+      {/* Nuevos campos: Le gusta hacer ejercicio y Caracter */}
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <label className="form-label">Le gusta hacer ejercicio</label>
+          <select
+            className="form-select"
+            name="tipoActividad"
+            value={formData.tipoActividad || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.tipoActividad &&
+              options.tipoActividad.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Caracter</label>
+          <select
+            className="form-select"
+            name="caracter"
+            value={formData.caracter || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.caracter &&
+              options.caracter.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
         </div>
       </div>
 
