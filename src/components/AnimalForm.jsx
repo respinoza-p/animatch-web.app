@@ -116,13 +116,15 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
           />
         </div>
         <div className="col-md-6">
-          <label className="form-label">Edad</label>
+          <label className="form-label">Edad (Años) </label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             name="edad"
             value={formData.edad}
-            onChange={handleChange}
+            onChange={handleChange} 
+            min="0"
+            max="30" 
             required
           />
         </div>
@@ -133,11 +135,13 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         <div className="col-md-4">
           <label className="form-label">Peso (kg)</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             name="peso"
             value={formData.peso}
-            onChange={handleChange}
+            onChange={handleChange} 
+            min="0"
+            max="70"             
             required
           />
         </div>
