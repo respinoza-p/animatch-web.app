@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
 const regex = {
@@ -11,10 +12,11 @@ const regex = {
 const AnimalForm = ({ formData, setFormData, options }) => {
   const token = useAuth(); // Obtiene el token válido
   const today = new Date().toISOString().split("T")[0];
-  const [message, setMessage] = useState(""); // Mensaje de error o éxito
+  const [message, setMessage] = useState(""); // Para mostrar mensaje de error o éxito
   const [loading, setLoading] = useState(false); // Estado de carga
+  const navigate = useNavigate(); // Hook para redirigir
 
-  // Estilo para la superposición (overlay) de carga
+  // Estilo del overlay de carga
   const overlayStyle = {
     position: "absolute",
     top: 0,
@@ -72,6 +74,8 @@ const AnimalForm = ({ formData, setFormData, options }) => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+
+    // Si el campo es el de fotografías (permitiendo múltiples archivos)
     if (name === "fotos") {
       const fileList = Array.from(files);
       const validFiles = fileList.filter((file) =>
@@ -98,6 +102,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
         });
       return;
     }
+
     if (type === "file") {
       const file = files[0];
       if (
@@ -120,7 +125,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    setLoading(true); // Inicia el estado de carga
+    setLoading(true);
 
     const dataToSend = new FormData();
     dataToSend.append("nombre", formData.nombre);
@@ -144,6 +149,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
     dataToSend.append("relacionOtrosAnimales", formData.relacionOtrosAnimales);
     dataToSend.append("perroAptoPara", formData.perroAptoPara);
     dataToSend.append("pelechaCaspa", formData.pelechaCaspa);
+
     if (formData.fotos && formData.fotos.length > 0) {
       formData.fotos.forEach((file) => {
         dataToSend.append("fotos", file);
@@ -173,14 +179,15 @@ const AnimalForm = ({ formData, setFormData, options }) => {
       const result = await response.json();
       console.log("Registro guardado:", result);
       setMessage("Registro guardado con éxito.");
-      // Opcional: reiniciar el formulario o redirigir
+      // Redirige a la página principal y pasa el mensaje de éxito en el state
+      navigate("/", { state: { successMessage: "Registro guardado con éxito." } });
     } catch (error) {
       console.error("Error en el envío:", error);
       if (!message) {
         setMessage("Error en el envío: " + error.message);
       }
     } finally {
-      setLoading(false); // Finaliza el estado de carga
+      setLoading(false);
     }
   };
 
