@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const regex = {
   nombre: /^[a-zA-Z\s]+$/,
@@ -8,6 +8,9 @@ const regex = {
 };
 
 const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
+  // Obtiene la fecha actual en formato YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
@@ -162,6 +165,45 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
                 </option>
               ))}
           </select>
+        </div>
+      </div>
+
+      {/* Nuevos campos: Fecha Nacimiento, Fecha Rescate y Cantidad de Adopciones */}
+      <div className="row mt-3">
+        <div className="col-md-4">
+          <label className="form-label">Fecha Nacimiento</label>
+          <input
+            type="date"
+            className="form-control"
+            name="fechaNacimiento"
+            value={formData.fechaNacimiento || today}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Fecha Rescate</label>
+          <input
+            type="date"
+            className="form-control"
+            name="fechaRescate"
+            value={formData.fechaRescate || today}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Cantidad de Adopciones Anteriores</label>
+          <input
+            type="number"
+            className="form-control"
+            name="cantAdopciones"
+            value={formData.cantAdopciones || 0}
+            onChange={handleChange}
+            min="0"
+            max="10"
+            required
+          />
         </div>
       </div>
 

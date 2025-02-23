@@ -30,6 +30,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     esterilizado: null,
     raza: null,
     tamAnimal: null,
+    fechaNacimiento: "",
+    fechaRescate: "",
+    cantAdopciones: 0,    
     foto: null,
     fotoPreview: null,
   });
