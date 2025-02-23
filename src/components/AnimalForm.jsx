@@ -481,7 +481,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
       </div>
 
       <button type="submit" className="btn btn-primary mt-3">
-        Registrar
+        Registrar 
       </button>
     </form>
   );
