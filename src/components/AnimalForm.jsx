@@ -176,8 +176,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="raza"
             value={formData.raza || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.raza &&
               options.raza.map((op) => (
@@ -194,8 +193,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tamAnimal"
             value={formData.tamAnimal || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.tamAnimal &&
               options.tamAnimal.map((op) => (
@@ -217,8 +215,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="fechaNacimiento"
             value={formData.fechaNacimiento || today}
             onChange={handleChange}
-            required
-          />
+            required/>
         </div>
         <div className="col-md-4">
           <label className="form-label">Fecha Rescate</label>
@@ -241,8 +238,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             onChange={handleChange}
             min="0"
             max="10"
-            required
-          />
+            required/>
         </div>
       </div>
 
@@ -255,8 +251,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tipoActividad"
             value={formData.tipoActividad || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.tipoActividad &&
               options.tipoActividad.map((op) => (
@@ -273,8 +268,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="caracter"
             value={formData.caracter || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.caracter &&
               options.caracter.map((op) => (
@@ -295,8 +289,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="tipoEntrenamiento"
             value={formData.tipoEntrenamiento || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.tipoEntrenamiento &&
               options.tipoEntrenamiento.map((op) => (
@@ -313,8 +306,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="cuidados"
             value={formData.cuidados || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.cuidados &&
               options.cuidados.map((op) => (
@@ -335,8 +327,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="problemaComportamiento"
             value={formData.problemaComportamiento || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.problemaComportamiento &&
               options.problemaComportamiento.map((op) => (
@@ -353,11 +344,47 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             name="relacionOtrosAnimales"
             value={formData.relacionOtrosAnimales || ""}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">Seleccione...</option>
             {options.relacionOtrosAnimales &&
               options.relacionOtrosAnimales.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+      {/* Nuevos campos: Perro apto para y Pelecha o tiene caspa */}
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <label className="form-label">Perro apto para</label>
+          <select
+            className="form-select"
+            name="perroAptoPara"
+            value={formData.perroAptoPara || ""}
+            onChange={handleChange}
+            required>
+            <option value="">Seleccione...</option>
+            {options.perroAptoPara &&
+              options.perroAptoPara.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Pelecha o tiene caspa</label>
+          <select
+            className="form-select"
+            name="pelechaCaspa"
+            value={formData.pelechaCaspa || ""}
+            onChange={handleChange}
+            required>
+            <option value="">Seleccione...</option>
+            {options.pelechaCaspa &&
+              options.pelechaCaspa.map((op) => (
                 <option key={op._id} value={op.valor}>
                   {op.valor}
                 </option>

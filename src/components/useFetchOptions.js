@@ -14,7 +14,9 @@ const useFetchOptions = (token, urls) => {
     tipoEntrenamiento: [],
     cuidados: [],
     problemaComportamiento: [],
-    relacionOtrosAnimales: []
+    relacionOtrosAnimales: [],
+    perroAptoPara: [],
+    pelechaCaspa: []
   });
 
   useEffect(() => {

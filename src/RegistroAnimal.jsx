@@ -24,7 +24,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     tipoEntrenamiento: import.meta.env.VITE_ENTRENAMIENTO_ANIMAL,
     cuidados: import.meta.env.VITE_CUIDADOS_ANIMAL,
     problemaComportamiento: import.meta.env.VITE_PROBLEMA_COMPORTAMIENTO,
-    relacionOtrosAnimales: import.meta.env.VITE_RELACION_OTROS_ANIMALES    
+    relacionOtrosAnimales: import.meta.env.VITE_RELACION_OTROS_ANIMALES,
+    perroAptoPara: import.meta.env.VITE_TIPO_VIVIENDA_ANIMAL,
+    pelechaCaspa: import.meta.env.VITE_PELECHA_CASPA_ANIMAL,        
   }), [])
 
   const options = useFetchOptions(token, API_URLS);
@@ -48,7 +50,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     tipoEntrenamiento: null,
     cuidados: null,
     problemaComportamiento: null,
-    relacionOtrosAnimales: null,                
+    relacionOtrosAnimales: null,
+    perroAptoPara: null,
+    pelechaCaspa: null,                    
     foto: null,
     fotoPreview: null,
   });
