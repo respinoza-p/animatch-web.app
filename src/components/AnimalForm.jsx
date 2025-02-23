@@ -125,7 +125,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
-      {/* Combo de Raza */}
+      {/* Raza y Tamaño */}
       <div className="row mt-3">
         <div className="col-md-4">
           <label className="form-label">Raza</label>
@@ -139,6 +139,24 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             <option value="">Seleccione...</option>
             {options.raza &&
               options.raza.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Tamaño</label>
+          <select
+            className="form-select"
+            name="tamAnimal"
+            value={formData.tamAnimal || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.tamAnimal &&
+              options.tamAnimal.map((op) => (
                 <option key={op._id} value={op.valor}>
                   {op.valor}
                 </option>
