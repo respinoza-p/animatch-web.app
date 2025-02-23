@@ -29,6 +29,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Nombre y Edad */}
       <div className="row">
         <div className="col-md-6">
           <label className="form-label">Nombre</label>
@@ -41,7 +42,6 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             required
           />
         </div>
-
         <div className="col-md-6">
           <label className="form-label">Edad</label>
           <input
@@ -55,6 +55,7 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
+      {/* Peso y Sexo */}
       <div className="row mt-3">
         <div className="col-md-4">
           <label className="form-label">Peso (kg)</label>
@@ -67,10 +68,15 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             required
           />
         </div>
-
         <div className="col-md-4">
           <label className="form-label">Sexo</label>
-          <select className="form-select" name="sexo" value={formData.sexo} onChange={handleChange} required>
+          <select
+            className="form-select"
+            name="sexo"
+            value={formData.sexo}
+            onChange={handleChange}
+            required
+          >
             <option value="">Seleccione...</option>
             {options.sexo.map((op) => (
               <option key={op._id} value={op.valor}>
@@ -81,10 +87,17 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
+      {/* Vacunas y Esterilizado/Castrado */}
       <div className="row mt-3">
         <div className="col-md-4">
           <label className="form-label">Vacunas</label>
-          <select className="form-select" name="vacuna" value={formData.vacuna || ""} onChange={handleChange} required>
+          <select
+            className="form-select"
+            name="vacuna"
+            value={formData.vacuna || ""}
+            onChange={handleChange}
+            required
+          >
             <option value="">Seleccione...</option>
             {options.vacuna.map((op) => (
               <option key={op._id} value={op.valor}>
@@ -93,10 +106,15 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             ))}
           </select>
         </div>
-
         <div className="col-md-4">
           <label className="form-label">Esterilizado/Castrado</label>
-          <select className="form-select" name="esterilizado" value={formData.esterilizado || ""} onChange={handleChange} required>
+          <select
+            className="form-select"
+            name="esterilizado"
+            value={formData.esterilizado || ""}
+            onChange={handleChange}
+            required
+          >
             <option value="">Seleccione...</option>
             {options.esterilizado.map((op) => (
               <option key={op._id} value={op.valor}>
@@ -107,7 +125,31 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>
 
-      <button type="submit" className="btn btn-primary mt-3">Registrar</button>
+      {/* Combo de Raza */}
+      <div className="row mt-3">
+        <div className="col-md-4">
+          <label className="form-label">Raza</label>
+          <select
+            className="form-select"
+            name="raza"
+            value={formData.raza || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.raza &&
+              options.raza.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" className="btn btn-primary mt-3">
+        Registrar
+      </button>
     </form>
   );
 };

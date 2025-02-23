@@ -15,6 +15,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     sexo: import.meta.env.VITE_SEXO_API_URL,
     vacuna: import.meta.env.VITE_VACUNA_API_URL,
     esterilizado: import.meta.env.VITE_ESTADO_REPRODUCTIVO_ANIMAL,
+    raza: import.meta.env.VITE_RAZA_ANIMAL
   }), []);
 
   const options = useFetchOptions(token, API_URLS);
@@ -26,6 +27,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     sexo: "macho",
     vacuna: null,
     esterilizado: null,
+    raza: null,
     foto: null,
     fotoPreview: null,
   });
