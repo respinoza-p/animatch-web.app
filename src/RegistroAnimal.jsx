@@ -23,6 +23,8 @@ const RegistroAnimal = ({ user, setUser }) => {
     caracter: import.meta.env.VITE_CARACTER_ANIMAL,
     tipoEntrenamiento: import.meta.env.VITE_ENTRENAMIENTO_ANIMAL,
     cuidados: import.meta.env.VITE_CUIDADOS_ANIMAL,
+    problemaComportamiento: import.meta.env.VITE_PROBLEMA_COMPORTAMIENTO,
+    relacionOtrosAnimales: import.meta.env.VITE_RELACION_OTROS_ANIMALES    
   }), [])
 
   const options = useFetchOptions(token, API_URLS);
@@ -44,7 +46,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     tipoActividad: null,
     caracter: null,
     tipoEntrenamiento: null,
-    cuidados: null,            
+    cuidados: null,
+    problemaComportamiento: null,
+    relacionOtrosAnimales: null,                
     foto: null,
     fotoPreview: null,
   });

@@ -1,7 +1,21 @@
 import { useState, useEffect } from "react";
 
 const useFetchOptions = (token, urls) => {
-  const [options, setOptions] = useState({ sexo: [], vacuna: [], esterilizado: [], raza: [], tamAnimal: [], chip: [], alimentacion: [], tipoActividad: [], caracter: [], tipoEntrenamiento: [], cuidados: [] });
+  const [options, setOptions] = useState({
+    sexo: [],
+    vacuna: [],
+    esterilizado: [],
+    raza: [],
+    tamAnimal: [],
+    chip: [],
+    alimentacion: [],
+    tipoActividad: [],
+    caracter: [],
+    tipoEntrenamiento: [],
+    cuidados: [],
+    problemaComportamiento: [],
+    relacionOtrosAnimales: []
+  });
 
   useEffect(() => {
     if (!token) return;
@@ -10,10 +24,12 @@ const useFetchOptions = (token, urls) => {
       try {
         const response = await fetch(url, {
           method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` }
         });
 
-        if (!response.ok) throw new Error(`Error al obtener ${key}`);
+        if (!response.ok) {
+          throw new Error(`Error al obtener ${key}`);
+        }
 
         const data = await response.json();
         setOptions((prev) => ({ ...prev, [key]: data }));

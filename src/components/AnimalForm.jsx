@@ -326,6 +326,46 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
         </div>
       </div>      
 
+      {/* Nuevos campos: Problemas de comportamiento y Relación con otros animales */}
+      <div className="row mt-3">
+        <div className="col-md-6">
+          <label className="form-label">Problemas de comportamiento</label>
+          <select
+            className="form-select"
+            name="problemaComportamiento"
+            value={formData.problemaComportamiento || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.problemaComportamiento &&
+              options.problemaComportamiento.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Relación con otros animales</label>
+          <select
+            className="form-select"
+            name="relacionOtrosAnimales"
+            value={formData.relacionOtrosAnimales || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione...</option>
+            {options.relacionOtrosAnimales &&
+              options.relacionOtrosAnimales.map((op) => (
+                <option key={op._id} value={op.valor}>
+                  {op.valor}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+
       <button type="submit" className="btn btn-primary mt-3">
         Registrar
       </button>
