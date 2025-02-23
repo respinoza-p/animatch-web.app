@@ -20,8 +20,10 @@ const RegistroAnimal = ({ user, setUser }) => {
     chip: import.meta.env.VITE_CHIP_API_URL,
     alimentacion: import.meta.env.VITE_TIPO_ALIMENTACION,
     tipoActividad: import.meta.env.VITE_ACTIVIDAD_ANIMAL,
-    caracter: import.meta.env.VITE_CARACTER_ANIMAL
-  }), []);
+    caracter: import.meta.env.VITE_CARACTER_ANIMAL,
+    tipoEntrenamiento: import.meta.env.VITE_ENTRENAMIENTO_ANIMAL,
+    cuidados: import.meta.env.VITE_CUIDADOS_ANIMAL,
+  }), [])
 
   const options = useFetchOptions(token, API_URLS);
 
@@ -40,7 +42,9 @@ const RegistroAnimal = ({ user, setUser }) => {
     fechaRescate: "",
     cantAdopciones: 0,
     tipoActividad: null,
-    caracter: null,        
+    caracter: null,
+    tipoEntrenamiento: null,
+    cuidados: null,            
     foto: null,
     fotoPreview: null,
   });
