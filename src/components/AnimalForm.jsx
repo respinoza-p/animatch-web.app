@@ -11,11 +11,82 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
   // Obtiene la fecha actual en formato YYYY-MM-DD
   const today = new Date().toISOString().split("T")[0];
 
+  // Función para comprimir una imagen usando canvas
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          // Primer intento con calidad 0.9
+          canvas.toBlob(
+            (blob) => {
+              if (blob.size > 3000000) {
+                // Si el blob sigue siendo mayor a 3 MB, reduce la calidad a 0.7
+                canvas.toBlob(
+                  (compressedBlob) => {
+                    resolve(new File([compressedBlob], file.name, { type: "image/jpeg" }));
+                  },
+                  "image/jpeg",
+                  0.7
+                );
+              } else {
+                resolve(new File([blob], file.name, { type: "image/jpeg" }));
+              }
+            },
+            "image/jpeg",
+            0.9
+          );
+        };
+        img.onerror = (error) => reject(error);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+
+    // Si el campo es el de fotografías (permitiendo múltiples archivos)
+    if (name === "fotos") {
+      const fileList = Array.from(files);
+      // Verifica que todos los archivos sean de tipo permitido
+      const validFiles = fileList.filter((file) =>
+        ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
+      );
+      if (validFiles.length !== fileList.length) {
+        alert("Formato de imagen no válido. Solo JPG, JPEG y PNG.");
+        return;
+      }
+      // Limita a 3 fotografías
+      const limitedFiles = validFiles.slice(0, 3);
+      // Comprimir cada imagen si es necesario
+      Promise.all(limitedFiles.map((file) => compressImage(file)))
+        .then((compressedFiles) => {
+          // Genera las URL para previsualización de cada imagen
+          const previews = compressedFiles.map((file) => URL.createObjectURL(file));
+          setFormData({ ...formData, fotos: compressedFiles, fotosPreview: previews });
+        })
+        .catch((error) => {
+          console.error("Error al comprimir imágenes:", error);
+        });
+      return;
+    }
+
+    // Lógica para campos de tipo file (único) que ya tenías
     if (type === "file") {
       const file = files[0];
-      if (file && !["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+      if (
+        file &&
+        !["image/jpeg", "image/png", "image/jpg"].includes(file.type)
+      ) {
         alert("Formato de imagen no válido. Solo JPG, JPEG y PNG.");
         return;
       }
@@ -390,6 +461,22 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
                 </option>
               ))}
           </select>
+        </div>
+      </div>
+
+      {/* Campo para cargar fotografías (3 fotos) */}
+      <div className="row mt-3">
+        <div className="col-md-12">
+          <label className="form-label">Fotografías del animal (máx 3, cada una &lt; 3MB)</label>
+          <input
+            type="file"
+            className="form-control"
+            name="fotos"
+            onChange={handleChange}
+            accept="image/jpeg,image/png,image/jpg"
+            multiple 
+            required
+          />
         </div>
       </div>
 

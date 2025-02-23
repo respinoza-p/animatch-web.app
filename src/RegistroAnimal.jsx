@@ -53,8 +53,8 @@ const RegistroAnimal = ({ user, setUser }) => {
     relacionOtrosAnimales: null,
     perroAptoPara: null,
     pelechaCaspa: null,                    
-    foto: null,
-    fotoPreview: null,
+    fotos: [],
+    fotosPreview: []
   });
 
   const handleSubmit = (e) => {
