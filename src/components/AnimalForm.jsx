@@ -93,6 +93,18 @@ const AnimalForm = ({ formData, setFormData, options, handleSubmit }) => {
             ))}
           </select>
         </div>
+
+        <div className="col-md-4">
+          <label className="form-label">Esterilizado/Castrado</label>
+          <select className="form-select" name="esterilizado" value={formData.esterilizado || ""} onChange={handleChange} required>
+            <option value="">Seleccione...</option>
+            {options.esterilizado.map((op) => (
+              <option key={op._id} value={op.valor}>
+                {op.valor}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <button type="submit" className="btn btn-primary mt-3">Registrar</button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -10,13 +10,12 @@ const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
   const token = useAuth();
 
-  const API_URLS = {
+  // Memoriza el objeto API_URLS para evitar que se cree una nueva referencia en cada render
+  const API_URLS = useMemo(() => ({
     sexo: import.meta.env.VITE_SEXO_API_URL,
-    chip: import.meta.env.VITE_CHIP_API_URL,
     vacuna: import.meta.env.VITE_VACUNA_API_URL,
-    tamAnimal: import.meta.env.VITE_TAM_ANIMAL,
-    esterilizado:import.meta.env.VITE_ESTADO_REPRODUCTIVO_ANIMAL
-  };
+    esterilizado: import.meta.env.VITE_ESTADO_REPRODUCTIVO_ANIMAL,
+  }), []);
 
   const options = useFetchOptions(token, API_URLS);
 
@@ -25,9 +24,8 @@ const RegistroAnimal = ({ user, setUser }) => {
     edad: "",
     peso: "",
     sexo: "macho",
-    tieneChip: "desconocido",
     vacuna: null,
-    esterilizado:null,
+    esterilizado: null,
     foto: null,
     fotoPreview: null,
   });
@@ -43,7 +41,12 @@ const RegistroAnimal = ({ user, setUser }) => {
       <Header userName={user?.name || "Usuario"} setUser={setUser} />
       <h2 className="display-5 mt-4 text-center">🐶 Registro de Animal Rescatado</h2>
       <p className="lead text-center">Ingresa los datos para ayudar a encontrar un hogar.</p>
-      <AnimalForm formData={formData} setFormData={setFormData} options={options} handleSubmit={handleSubmit} />
+      <AnimalForm
+        formData={formData}
+        setFormData={setFormData}
+        options={options}
+        handleSubmit={handleSubmit}
+      />
       <Footer />
     </div>
   );
