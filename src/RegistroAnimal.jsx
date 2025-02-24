@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -10,7 +10,7 @@ const RegistroAnimal = ({ user, setUser }) => {
   const navigate = useNavigate();
   const token = useAuth();
 
-  // Memoriza el objeto API_URLS para evitar que se cree una nueva referencia en cada render
+  // Memoriza el objeto API_URLS para evitar recreaciones innecesarias
   const API_URLS = useMemo(() => ({
     sexo: import.meta.env.VITE_SEXO_API_URL,
     vacuna: import.meta.env.VITE_VACUNA_API_URL,
@@ -27,10 +27,11 @@ const RegistroAnimal = ({ user, setUser }) => {
     relacionOtrosAnimales: import.meta.env.VITE_RELACION_OTROS_ANIMALES,
     perroAptoPara: import.meta.env.VITE_TIPO_VIVIENDA_ANIMAL,
     pelechaCaspa: import.meta.env.VITE_PELECHA_CASPA_ANIMAL,        
-  }), [])
+  }), []);
 
   const options = useFetchOptions(token, API_URLS);
 
+  // Estado inicial del formulario
   const [formData, setFormData] = useState({
     nombre: "",
     edad: "",
@@ -54,8 +55,16 @@ const RegistroAnimal = ({ user, setUser }) => {
     perroAptoPara: null,
     pelechaCaspa: null,                    
     fotos: [],
-    fotosPreview: []
+    fotosPreview: [],
+    correo: ""
   });
+
+  // Cuando el usuario cambia, actualiza automáticamente el correo en formData
+  useEffect(() => {
+    if (user?.email) {
+      setFormData(prevFormData => ({ ...prevFormData, correo: user.email }));
+    }
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -361,7 +361,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
             </select>
           </div>
           <div className="col-md-4">
-            <label className="form-label">Tamañooooo</label>
+            <label className="form-label">Tamaño</label>
             <select
               className="form-select"
               name="tamAnimal"
