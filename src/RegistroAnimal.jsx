@@ -56,7 +56,7 @@ const RegistroAnimal = ({ user, setUser }) => {
     pelechaCaspa: null,                    
     fotos: [],
     fotosPreview: [],
-    correo: ""
+    correo: user?.email || ""
   });
 
   // Cuando el usuario cambia, actualiza automáticamente el correo en formData

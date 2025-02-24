@@ -150,6 +150,8 @@ const AnimalForm = ({ formData, setFormData, options }) => {
     dataToSend.append("perroAptoPara", formData.perroAptoPara);
     dataToSend.append("pelechaCaspa", formData.pelechaCaspa);
 
+    dataToSend.append("correo", formData.correo);
+    
     if (formData.fotos && formData.fotos.length > 0) {
       formData.fotos.forEach((file) => {
         dataToSend.append("fotos", file);
