@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage";
+import RegistroAdoptante from "./RegistroAdoptante";
 import RegistroAnimal from "./RegistroAnimal";
 import HacerMatch from "./HacerMatch";
 import PrivacyPolicy from "./PrivacyPolicy";
@@ -55,6 +56,7 @@ function App() {
         />
         <Route path="/home" element={<HomePage user={user} setUser={setUser} />} />
         <Route path="/registro-animal" element={<RegistroAnimal user={user} setUser={setUser} />} />
+        <Route path="/cuestionario-adoptantes" element={<RegistroAdoptante user={user} setUser={setUser} />} />
         <Route path="/hacer-match" element={<HacerMatch user={user} setUser={setUser} />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
