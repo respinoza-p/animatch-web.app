@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
-const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
+const AdoptanteCuestionario = ({ formData, setFormData, options, handleSubmit }) => {
   const token = useAuth();
-
-  console.log("Opciones recibidas en AdoptanteCuestionario:", options); // Verifica que `options` no sea undefined
 
   return (
     <div style={{ position: "relative" }}>
-      <form onSubmit={(e) => { e.preventDefault(); alert("Registro exitoso!"); }}>
+      <form onSubmit={handleSubmit}>
 
         {/* Campo: ¿Quiénes componen su hogar? */}
         <div className="mb-3">
@@ -22,7 +20,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.componenHogar?.length > 0 ? (
               options.componenHogar.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -41,7 +39,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.fraseIdentifica?.length > 0 ? (
               options.fraseIdentifica.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -60,7 +58,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.porqueDeseaAdoptar?.length > 0 ? (
               options.porqueDeseaAdoptar.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -79,7 +77,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.alergiaEnfermedad?.length > 0 ? (
               options.alergiaEnfermedad.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -98,7 +96,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.haTenidoAnimales?.length > 0 ? (
               options.haTenidoAnimales.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -117,7 +115,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.actualmenteTengo?.length > 0 ? (
               options.actualmenteTengo.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -130,13 +128,13 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
           <label className="form-label">Busco un perro de tamaño:</label>
           <select
             className="form-select"
-            value={formData.tamAnimal}
-            onChange={(e) => setFormData({ ...formData, tamAnimal: e.target.value })}
+            value={formData.tamanioAnimal}
+            onChange={(e) => setFormData({ ...formData, tamanioAnimal: e.target.value })}
           >
             <option value="">Seleccione una opción</option>
-            {options?.tamAnimal?.length > 0 ? (
-              options.tamAnimal.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+            {options?.tamanioAnimal?.length > 0 ? (
+              options.tamanioAnimal.map((item) => (
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -155,7 +153,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.edadAnimal?.length > 0 ? (
               options.edadAnimal.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -174,7 +172,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.opinionEsteriliza?.length > 0 ? (
               options.opinionEsteriliza.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -193,7 +191,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.dispuestoAdoptar?.length > 0 ? (
               options.dispuestoAdoptar.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -212,7 +210,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.vivoEn?.length > 0 ? (
               options.vivoEn.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -231,7 +229,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.presupuestoMensual?.length > 0 ? (
               options.presupuestoMensual.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -250,7 +248,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.paseosAnimal?.length > 0 ? (
               options.paseosAnimal.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>
@@ -269,7 +267,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options }) => {
             <option value="">Seleccione una opción</option>
             {options?.tiempoSoledadAnimal?.length > 0 ? (
               options.tiempoSoledadAnimal.map((item) => (
-                <option key={item._id} value={item.valor}>{item.valor}</option>
+                <option key={item._id} value={item._id}>{item.valor}</option>
               ))
             ) : (
               <option disabled>Cargando...</option>

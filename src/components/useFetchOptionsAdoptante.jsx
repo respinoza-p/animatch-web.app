@@ -8,7 +8,7 @@ const useFetchOptionsAdoptante = (token, urls) => {
     alergiaEnfermedad: [],
     haTenidoAnimales: [],
     actualmenteTengo: [],
-    tamAnimal: [],
+    tamanioAnimal: [],
     edadAnimal: [],
     opinionEsteriliza: [],
     dispuestoAdoptar: [],

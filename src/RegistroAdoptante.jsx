@@ -10,6 +10,10 @@ const RegistroAdoptante = ({ user, setUser }) => {
   const navigate = useNavigate();
   const token = useAuth();
 
+  // Definir la URL del servicio desde .env
+  const API_POST = import.meta.env.VITE_REGISTRO_ADOPTANTE_POST;
+  const API_GET = import.meta.env.VITE_REGISTRO_ADOPTANTE_GET;
+
   // Memoriza el objeto API_URLS para evitar recreaciones innecesarias
   const API_URLS = useMemo(() => ({
     componenHogar: import.meta.env.VITE_COMPONEN_HOGAR,
@@ -18,14 +22,14 @@ const RegistroAdoptante = ({ user, setUser }) => {
     alergiaEnfermedad: import.meta.env.VITE_ALERGIA_ENFERMEDAD,
     haTenidoAnimales: import.meta.env.VITE_HA_TENIDO_ANIMALES,
     actualmenteTengo: import.meta.env.VITE_ACTUALMENTE_TENGO,
-    tamAnimal: import.meta.env.VITE_TAM_ANIMAL,
+    tamanioAnimal: import.meta.env.VITE_TAM_ANIMAL,
     edadAnimal: import.meta.env.VITE_EDAD_ANIMAL,
     opinionEsteriliza: import.meta.env.VITE_OPINION_ESTERILIZA,
     dispuestoAdoptar: import.meta.env.VITE_DISPUESTO_ADOPTAR,
     vivoEn: import.meta.env.VITE_VIVO_EN,
     presupuestoMensual: import.meta.env.VITE_PRESUPUESTO_MENSUAL,
     paseosAnimal: import.meta.env.VITE_PASEOS_ANIMAL,
-    tiempoSoledadAnimal: import.meta.env.VITE_TIEMPO_SOLEDAD_ANIMAL
+    tiempoSoledadAnimal: import.meta.env.VITE_TIEMPO_SOLEDAD_ANIMAL,
   }), []);
 
   const options = useFetchOptionsAdoptante(token, API_URLS);
@@ -38,7 +42,7 @@ const RegistroAdoptante = ({ user, setUser }) => {
     alergiaEnfermedad: "",
     haTenidoAnimales: "",
     actualmenteTengo: "",
-    tamAnimal: "",
+    tamanioAnimal: "",
     edadAnimal: "",
     opinionEsteriliza: "",
     dispuestoAdoptar: "",
@@ -49,39 +53,70 @@ const RegistroAdoptante = ({ user, setUser }) => {
     correo: user?.email || "", // Inicializa con el correo si está disponible
   });
 
-  // Cuando el usuario cambia, actualiza automáticamente el correo en formData
+  // Cargar los datos si ya existe un registro
   useEffect(() => {
-    if (user?.email) {
-      setFormData(prevFormData => ({ ...prevFormData, correo: user.email }));
-    }
-  }, [user]);
+    if (!user?.email) return;
 
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_GET}/${user.email}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setFormData((prev) => ({
+            ...prev,
+            ...data.data,
+          }));
+        }
+      } catch (error) {
+        console.error("Error al recuperar datos del adoptante:", error);
+      }
+    };
+
+    fetchData();
+  }, [user, API_GET, token]);
+
+  // Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.componenHogar || !formData.fraseIdentifica) {
-      alert("Por favor, completa todos los campos.");
+      alert("Por favor, completa todos los campos obligatorios.");
       return;
     }
-
+  
     try {
-      console.log("Datos enviados:", formData);
+
+      console.log("Enviando datos:", formData);
+
+      const response = await fetch(import.meta.env.VITE_REGISTRO_ADOPTANTE_POST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json(); // Captura el JSON del error
+  
+      if (!response.ok) {
+        console.error("Error en respuesta del servidor:", data);
+        throw new Error(data.message || "Error al registrar el adoptante");
+      }
+  
       alert("Registro exitoso!");
-      navigate("/home"); // Redirige a home después del registro exitoso
+      navigate("/home");
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
-      alert("Hubo un error en el registro. Inténtalo nuevamente.");
+      console.error("Error en el envío del formulario:", error);
+      alert(`Hubo un error en el registro: ${error.message}`);
     }
   };
-
-  // Redirigir si el usuario no está autenticado
-  if (!user) {
-    return (
-      <div className="container text-center mt-5">
-        <h2>Acceso restringido</h2>
-        <p>Debes iniciar sesión para completar el cuestionario.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="container">
@@ -94,7 +129,7 @@ const RegistroAdoptante = ({ user, setUser }) => {
         formData={formData}
         setFormData={setFormData}
         options={options}
-        handleSubmit={handleSubmit}
+        handleSubmit={handleSubmit} // 🔹 Pasamos la función handleSubmit
       />
       <Footer />
     </div>
