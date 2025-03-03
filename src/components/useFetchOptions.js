@@ -6,7 +6,7 @@ const useFetchOptions = (token, urls) => {
     vacuna: [],
     esterilizado: [],
     raza: [],
-    tamAnimal: [],
+    tamanioAnimal: [],
     chip: [],
     alimentacion: [],
     tipoActividad: [],

@@ -137,7 +137,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
     dataToSend.append("vacuna", formData.vacuna);
     dataToSend.append("esterilizado", formData.esterilizado);
     dataToSend.append("raza", formData.raza);
-    dataToSend.append("tamAnimal", formData.tamAnimal);
+    dataToSend.append("tamanioAnimal", formData.tamanioAnimal);
     dataToSend.append("fechaNacimiento", formData.fechaNacimiento || today);
     dataToSend.append("fechaRescate", formData.fechaRescate || today);
     dataToSend.append("cantAdopciones", formData.cantAdopciones);
@@ -179,10 +179,10 @@ const AnimalForm = ({ formData, setFormData, options }) => {
         throw new Error("Error al guardar el registro");
       }
       const result = await response.json();
-      console.log("Registro guardado:", result);
-      setMessage("Registro guardado con éxito.");
-      // Redirige a la página principal y pasa el mensaje de éxito en el state
-      navigate("/", { state: { successMessage: "Registro guardado con éxito." } });
+
+      alert("Registro exitoso!");
+      navigate("/home");
+
     } catch (error) {
       console.error("Error en el envío:", error);
       if (!message) {
@@ -254,7 +254,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
             >
               <option value="">Seleccione...</option>
               {options.sexo.map((op) => (
-                <option key={op._id} value={op.valor}>
+                <option key={op._id} value={op._id}>
                   {op.valor}
                 </option>
               ))}
@@ -276,7 +276,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.chip &&
                 options.chip.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -296,7 +296,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.alimentacion &&
                 options.alimentacion.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -317,7 +317,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
             >
               <option value="">Seleccione...</option>
               {options.vacuna.map((op) => (
-                <option key={op._id} value={op.valor}>
+                <option key={op._id} value={op._id}>
                   {op.valor}
                 </option>
               ))}
@@ -334,7 +334,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
             >
               <option value="">Seleccione...</option>
               {options.esterilizado.map((op) => (
-                <option key={op._id} value={op.valor}>
+                <option key={op._id} value={op._id}>
                   {op.valor}
                 </option>
               ))}
@@ -356,7 +356,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.raza &&
                 options.raza.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -366,15 +366,15 @@ const AnimalForm = ({ formData, setFormData, options }) => {
             <label className="form-label">Tamaño</label>
             <select
               className="form-select"
-              name="tamAnimal"
-              value={formData.tamAnimal || ""}
+              name="tamanioAnimal"
+              value={formData.tamanioAnimal || ""}
               onChange={handleChange}
               required
             >
               <option value="">Seleccione...</option>
-              {options.tamAnimal &&
-                options.tamAnimal.map((op) => (
-                  <option key={op._id} value={op.valor}>
+              {options.tamanioAnimal &&
+                options.tamanioAnimal.map((op) => (
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -437,7 +437,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.tipoActividad &&
                 options.tipoActividad.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -455,7 +455,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.caracter &&
                 options.caracter.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -477,7 +477,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.tipoEntrenamiento &&
                 options.tipoEntrenamiento.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -495,7 +495,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.cuidados &&
                 options.cuidados.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -517,7 +517,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.problemaComportamiento &&
                 options.problemaComportamiento.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -535,7 +535,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.relacionOtrosAnimales &&
                 options.relacionOtrosAnimales.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -557,7 +557,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.perroAptoPara &&
                 options.perroAptoPara.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
@@ -575,7 +575,7 @@ const AnimalForm = ({ formData, setFormData, options }) => {
               <option value="">Seleccione...</option>
               {options.pelechaCaspa &&
                 options.pelechaCaspa.map((op) => (
-                  <option key={op._id} value={op.valor}>
+                  <option key={op._id} value={op._id}>
                     {op.valor}
                   </option>
                 ))}
