@@ -55,32 +55,56 @@ const RegistroAdoptante = ({ user, setUser }) => {
 
   // Cargar los datos si ya existe un registro
   useEffect(() => {
-    if (!user?.email) return;
-
+    if (!user?.email || !token) {
+      console.warn("⏳ Esperando a que el token esté disponible...");
+      return;
+    }
+  
     const fetchData = async () => {
       try {
+        console.log("📢 Intentando obtener datos para el usuario:", user.email);
+  
         const response = await fetch(`${API_GET}/${user.email}`, {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         });
-
-        if (response.ok) {
-          const data = await response.json();
-          setFormData((prev) => ({
-            ...prev,
-            ...data.data,
-          }));
+  
+        if (!response.ok) {
+          throw new Error(`Error en la respuesta: ${response.status} ${response.statusText}`);
         }
+  
+        const { data } = await response.json();
+        console.log("✅ Datos obtenidos del servicio:", data);
+  
+        // Aseguramos que solo se asignen los `_id` en los combos
+        setFormData({
+          componenHogar: data.componenHogar?._id || "",
+          fraseIdentifica: data.fraseIdentifica?._id || "",
+          porqueDeseaAdoptar: data.porqueDeseaAdoptar?._id || "",
+          alergiaEnfermedad: data.alergiaEnfermedad?._id || "",
+          haTenidoAnimales: data.haTenidoAnimales?._id || "",
+          actualmenteTengo: data.actualmenteTengo?._id || "",
+          tamanioAnimal: data.tamanioAnimal?._id || "",
+          edadAnimal: data.edadAnimal?._id || "",
+          opinionEsteriliza: data.opinionEsteriliza?._id || "",
+          dispuestoAdoptar: data.dispuestoAdoptar?._id || "",
+          vivoEn: data.vivoEn?._id || "",
+          presupuestoMensual: data.presupuestoMensual?._id || "",
+          paseosAnimal: data.paseosAnimal?._id || "",
+          tiempoSoledadAnimal: data.tiempoSoledadAnimal?._id || "",
+          correo: user.email,
+        });
+  
       } catch (error) {
-        console.error("Error al recuperar datos del adoptante:", error);
+        console.error("❌ Error al obtener los datos del adoptante:", error);
       }
     };
-
+  
     fetchData();
-  }, [user, API_GET, token]);
+  }, [user, token, API_GET]); // 🔹 Se ejecuta cuando `user`, `token` y `API_GET` están disponibles
 
   // Manejo del envío del formulario
   const handleSubmit = async (e) => {

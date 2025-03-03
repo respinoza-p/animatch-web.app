@@ -15,8 +15,7 @@ const AdoptanteCuestionario = ({ formData, setFormData, options, handleSubmit })
           <select
             className="form-select"
             value={formData.componenHogar}
-            onChange={(e) => setFormData({ ...formData, componenHogar: e.target.value })}
-          >
+            onChange={(e) => setFormData({ ...formData, componenHogar: e.target.value })}>
             <option value="">Seleccione una opción</option>
             {options?.componenHogar?.length > 0 ? (
               options.componenHogar.map((item) => (
